@@ -174,8 +174,6 @@ public class Graph {
   public boolean floydWarshall(ArrayList<ArrayList<Integer>> costMatrix,
       ArrayList<ArrayList<Integer>> parentsMatrix) {
     for (int i = 0; i < V; i++) {
-      costMatrix.add(new ArrayList<>());
-      parentsMatrix.add(new ArrayList<>());
       for (int j = 0; j < V; j++) {
         costMatrix.get(i).set(j, infinity);
         parentsMatrix.get(i).add(-1);
@@ -189,11 +187,7 @@ public class Graph {
     }
 
     for (int i = 0; i < V; i++) {
-      for (int j = 0; j < V; j++) {
-        if (i == j) {
-          costMatrix.get(i).set(j, 0);
-        }
-      }
+      costMatrix.get(i).set(i, 0);
     }
 
     for (int k = 0; k < V; k++) {
