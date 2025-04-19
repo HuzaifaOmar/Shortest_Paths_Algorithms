@@ -164,7 +164,7 @@ public class Graph {
   }
 
   /**
-   * Implementation of Dijkestra Algorithm.
+   * Implementation of Floyd-Warshaal Algorithm.
    * 
    * @param costMatrix    matrix of costs form and to every node.
    * @param parentsMatrix matrix of parent of every node.
@@ -172,8 +172,45 @@ public class Graph {
    * @return true if graph has negative cycle otherwise return false.
    */
   public boolean floydWarshall(ArrayList<ArrayList<Integer>> costMatrix,
-      ArrayList<ArrayList<Integer>> parentsMAtrix) {
+      ArrayList<ArrayList<Integer>> parentsMatrix) {
+    for (int i = 0; i < V; i++) {
+      costMatrix.add(new ArrayList<>());
+      parentsMatrix.add(new ArrayList<>());
+      for (int j = 0; j < V; j++) {
+        costMatrix.get(i).set(j, infinity);
+        parentsMatrix.get(i).add(-1);
+      }
+    }
 
+    for (int i = 0; i < V; i++) {
+      for (int j = 0; j < V; j++) {
+        costMatrix.get(i).set(j, adjMatrix.get(i).get(j));
+      }
+    }
+
+    for (int i = 0; i < V; i++) {
+      for (int j = 0; j < V; j++) {
+        if (i == j) {
+          costMatrix.get(i).set(j, 0);
+        }
+      }
+    }
+
+    for (int k = 0; k < V; k++) {
+      for (int i = 0; i < V; i++) {
+        for (int j = 0; j < V; j++) {
+          if (costMatrix.get(i).get(k) + costMatrix.get(k).get(j) < costMatrix.get(i).get(j)) {
+            costMatrix.get(i).set(j, costMatrix.get(i).get(k) + costMatrix.get(k).get(j));
+            parentsMatrix.get(i).set(j, parentsMatrix.get(k).get(j));
+          }
+        }
+      }
+    }
+    for (int i = 0; i < V; i++) {
+      if (costMatrix.get(i).get(i) < 0) {
+        return false;
+      }
+    }
     return true;
   }
 
