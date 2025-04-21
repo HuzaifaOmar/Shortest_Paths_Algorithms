@@ -175,13 +175,11 @@ public class Graph {
       ArrayList<ArrayList<Integer>> parentsMatrix) {
     for (int i = 0; i < V; i++) {
       for (int j = 0; j < V; j++) {
-        costMatrix.get(i).set(j, infinity);
-        parentsMatrix.get(i).add(-1);
-      }
-    }
-
-    for (int i = 0; i < V; i++) {
-      for (int j = 0; j < V; j++) {
+        if (adjMatrix.get(i).get(j) != infinity) {
+          parentsMatrix.get(i).set(j, i);
+        } else {
+          parentsMatrix.get(i).set(j, -1);
+        }
         costMatrix.get(i).set(j, adjMatrix.get(i).get(j));
       }
     }
